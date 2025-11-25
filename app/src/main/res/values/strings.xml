@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">WeatherDemoApp</string>
+
+    <!-- 主页相关 -->
+    <string name="current_weather">当前天气</string>
+    <string name="location">位置</string>
+    <string name="temperature">温度</string>
+    <string name="feels_like">体感温度</string>
+    <string name="humidity">湿度</string>
+    <string name="wind_speed">风速</string>
+    <string name="pressure">气压</string>
+    <string name="uv_index">紫外线指数</string>
+
+    <!-- 预报相关 -->
+    <string name="hourly_forecast">逐小时预报</string>
+    <string name="seven_day_forecast">7天预报</string>
+    <string name="high">高温</string>
+    <string name="low">低温</string>
+    <string name="today">今天</string>
+
+    <!-- 度量单位 -->
+    <string name="degree_celsius">°C</string>
+    <string name="degree_fahrenheit">°F</string>
+    <string name="percent">%</string>
+    <string name="km_per_hour">km/h</string>
+    <string name="hpa">hPa</string>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 基础颜色 -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- Material Design 3 主题色（天蓝色系） -->
+    <color name="md3_primary">#0066CC</color>
+    <color name="md3_on_primary">#FFFFFF</color>
+    <color name="md3_primary_container">#E5F0FF</color>
+    <color name="md3_on_primary_container">#001E5A</color>
+
+    <!-- 次要色 -->
+    <color name="md3_secondary">#0099CC</color>
+    <color name="md3_on_secondary">#FFFFFF</color>
+    <color name="md3_secondary_container">#E0F7FF</color>
+    <color name="md3_on_secondary_container">#003D66</color>
+
+    <!-- 强调色 -->
+    <color name="md3_tertiary">#FF9900</color>
+    <color name="md3_on_tertiary">#FFFFFF</color>
+    <color name="md3_tertiary_container">#FFE5CC</color>
+    <color name="md3_on_tertiary_container">#663300</color>
+
+    <!-- 背景色 -->
+    <color name="md3_background">#FFFBFE</color>
+    <color name="md3_on_background">#1C1B1F</color>
+    <color name="md3_surface">#FFFBFE</color>
+    <color name="md3_on_surface">#1C1B1F</color>
+    <color name="md3_surface_variant">#E7E0EC</color>
+    <color name="md3_on_surface_variant">#49454E</color>
+
+    <!-- 错误色 -->
+    <color name="md3_error">#FF3333</color>
+    <color name="md3_on_error">#FFFFFF</color>
+    <color name="md3_error_container">#FFCCCC</color>
+    <color name="md3_on_error_container">#660000</color>
+
+    <!-- 夜间模式颜色 -->
+    <color name="md3_dark_background">#1C1B1F</color>
+    <color name="md3_dark_on_background">#E7E0EC</color>
+    <color name="md3_dark_surface">#1C1B1F</color>
+    <color name="md3_dark_on_surface">#E7E0EC</color>
+
+    <!-- 天气特定颜色 -->
+    <color name="weather_sunny">#FFB300</color>
+    <color name="weather_cloudy">#B0BEC5</color>
+    <color name="weather_rainy">#5C7CFA</color>
+    <color name="weather_snowy">#E0E7FF</color>
+</resources>

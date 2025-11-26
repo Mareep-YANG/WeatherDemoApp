@@ -3,13 +3,10 @@
 
     <!-- 主页相关 -->
     <string name="current_weather">当前天气</string>
-    <string name="location">位置</string>
+    <string name="location">大连市</string>
     <string name="temperature">温度</string>
-    <string name="feels_like">体感温度</string>
     <string name="humidity">湿度</string>
     <string name="wind_speed">风速</string>
-    <string name="pressure">气压</string>
-    <string name="uv_index">紫外线指数</string>
 
     <!-- 预报相关 -->
     <string name="hourly_forecast">逐小时预报</string>
@@ -20,12 +17,13 @@
 
     <!-- 度量单位 -->
     <string name="degree_celsius">°C</string>
-    <string name="degree_fahrenheit">°F</string>
     <string name="percent">%</string>
-    <string name="km_per_hour">km/h</string>
-    <string name="hpa">hPa</string>
 
     <!-- 城市选择    -->
     <string name="input_city">输入你想切换到的城市</string>
     <string name="submit_city">按钮确认</string>
+
+    <!-- 刷新相关 -->
+    <string name="refresh_weather">刷新天气</string>
+    <string name="last_update_time">最后更新时间</string>
 </resources>

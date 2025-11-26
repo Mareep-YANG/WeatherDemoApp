@@ -1,8 +1,10 @@
 package cn.mareep.weatherdemoapp.ui.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -26,9 +28,18 @@ class MainActivity : AppCompatActivity() {
     private lateinit var searchTextWatcher: TextWatcher
 
     // UI 组件
-    private lateinit var locateTextView: TextView
+    // 输入框
     private lateinit var searchEditText: EditText
     private lateinit var searchResultsRecyclerView: RecyclerView
+    // 文本显示
+    private lateinit var weatherUpdateTimeTextView: TextView
+    private lateinit var locateTextView: TextView
+    private lateinit var weatherDescriptionTextView: TextView
+    private lateinit var temperatureTextView: TextView
+    private lateinit var humidityTextView: TextView
+    private lateinit var windTextView: TextView
+    // 按钮
+    private lateinit var refreshWeatherButton: Button
 
     // 搜索结果列表
     private val locationTipsList = mutableListOf<String>()
@@ -50,10 +61,29 @@ class MainActivity : AppCompatActivity() {
         // 设置搜索框文本监听
         setupSearchTextWatcher()
 
+        // 设置按钮事件监听
+        setupButtonClickListener()
+
         // 设置 Edge-to-Edge
         setupEdgeToEdge()
-    }
 
+        // 触发第一次实况天气更新
+        viewModel.getLiveWeatherInfo()
+    }
+    /**
+     * 设置按钮事件监听
+     */
+    private fun setupButtonClickListener() {
+        refreshWeatherButton.setOnClickListener{
+            handleRefreshWeather()
+        }
+    }
+    /**
+     * 处理刷新天气按钮逻辑
+     */
+    private fun handleRefreshWeather() {
+        viewModel.getLiveWeatherInfo()
+    }
     /**
      * 初始化 ViewModel 及其依赖
      */
@@ -88,7 +118,12 @@ class MainActivity : AppCompatActivity() {
         locateTextView = findViewById(R.id.locationText)
         searchEditText = findViewById(R.id.searchEditText)
         searchResultsRecyclerView = findViewById(R.id.searchResultsRecyclerView)
-
+        weatherDescriptionTextView = findViewById(R.id.weatherDescriptionText)
+        temperatureTextView = findViewById(R.id.temperatureText)
+        humidityTextView = findViewById(R.id.humidityText)
+        windTextView = findViewById(R.id.windSpeedText)
+        refreshWeatherButton = findViewById(R.id.refreshWeatherButton)
+        weatherUpdateTimeTextView = findViewById(R.id.lastUpdateTimeText)
         // 配置 RecyclerView
         searchResultsRecyclerView.layoutManager = LinearLayoutManager(this)
     }
@@ -102,8 +137,23 @@ class MainActivity : AppCompatActivity() {
 
         // 观察搜索结果
         observeLocationTips()
-    }
 
+        // 观察实况天气数据变化
+        observeLiveWeather()
+    }
+    /**
+     * 观察实况天气数据变化
+     */
+    @SuppressLint("SetTextI18n")
+    private fun observeLiveWeather(){
+        viewModel.liveWeatherData.observe(this) {weather ->
+            weatherDescriptionTextView.text = weather[0].weather
+            temperatureTextView.text = "${weather[0].temperature}${getString(R.string.degree_celsius)} "
+            humidityTextView.text = "${weather[0].humidity}${getString(R.string.percent)}"
+            windTextView.text = "${weather[0].winddirection} ${weather[0].windpower}级"
+            weatherUpdateTimeTextView.text = "${getString(R.string.last_update_time)} ${weather[0].reporttime}"
+        }
+    }
     /**
      * 观察城市名称变化
      */
@@ -145,10 +195,10 @@ class MainActivity : AppCompatActivity() {
         searchEditText.setText(null)
         viewModel.updateCity(selectedCity)
         viewModel.clearLocationTips()
-
         // 隐藏搜索结果列表
         searchResultsRecyclerView.visibility = android.view.View.GONE
-
+        // 触发更新实况天气
+        viewModel.getLiveWeatherInfo()
         // 重新添加 TextWatcher
         searchEditText.addTextChangedListener(searchTextWatcher)
     }
@@ -190,3 +240,5 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+

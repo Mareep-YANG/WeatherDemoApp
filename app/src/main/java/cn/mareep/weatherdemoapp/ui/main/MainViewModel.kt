@@ -6,7 +6,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import cn.mareep.weatherdemoapp.data.local.preferences.CityPreference
-import cn.mareep.weatherdemoapp.data.models.dto.response.DistrictsSearchResponse
+import cn.mareep.weatherdemoapp.data.models.dto.DistrictsSearchDTO
+import cn.mareep.weatherdemoapp.data.models.dto.response.WeatherInfoDTO
 import cn.mareep.weatherdemoapp.data.remote.client.WeatherApiClient
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -18,22 +19,43 @@ class MainViewModel(
     private val cityPreference: CityPreference
 ) : ViewModel() {
 
-    // 私有可变 - 城市名称
+    // 城市名称
     private val _cityName = MutableLiveData<String>()
     val cityName: LiveData<String> = _cityName
 
-    // 搜索提示结果（城市名称列表）
+    // 搜索提示结果
     private val _locationTips = MutableLiveData<List<String>>()
     val locationTips: LiveData<List<String>> = _locationTips
 
-    // 保存搜索结果的完整信息（名称->adcode 映射）
+    // 保存搜索结果的完整信息
     private var searchResultsMap = mapOf<String, String>()
 
-    // 搜索防抖 Job
+    // 搜索行政区 Job
     private var searchJob: Job? = null
+    // 刷新天气数据 job
+    private var liveWeatherJob: Job? = null
+    // 天气数据
+    private val _liveWeatherData = MutableLiveData<List<WeatherInfoDTO>>()
+    val liveWeatherData: LiveData<List<WeatherInfoDTO>> = _liveWeatherData
 
     fun clearLocationTips() {
         _locationTips.value = emptyList()
+    }
+    /**
+     * 刷新实况天气信息
+     */
+    fun getLiveWeatherInfo(){
+        liveWeatherJob?.cancel() // 取消之前的获取天气信息的任务
+
+        liveWeatherJob = viewModelScope.launch {
+            try {
+                delay(300)
+                _liveWeatherData.value = apiClient.liveWeatherInfo(cityPreference.selectedCode)
+            } catch (e: Exception) {
+                Log.e("MainViewModel","获取天气信息失败：${e.message}", e)
+            }
+        }
+
     }
     /**
      * 获取下拉栏提示
@@ -56,7 +78,7 @@ class MainViewModel(
                 // 延迟 300ms 进行搜索，避免频繁调用 API
                 delay(300)
 
-                val tipsList: List<DistrictsSearchResponse> = apiClient.searchDistricts(input, 0)
+                val tipsList: List<DistrictsSearchDTO> = apiClient.searchDistricts(input, 0)
                 Log.d("MainViewModel", "搜索成功，返回 ${tipsList.size} 条结果")
 
                 // 提取name字段作为搜索提示，同时保存 name->adcode 的映射

@@ -1,6 +1,7 @@
 package cn.mareep.weatherdemoapp.data.remote.client
 
-import cn.mareep.weatherdemoapp.data.models.dto.response.DistrictsSearchResponse
+import cn.mareep.weatherdemoapp.data.models.dto.DistrictsSearchDTO
+import cn.mareep.weatherdemoapp.data.models.dto.response.WeatherInfoDTO
 import cn.mareep.weatherdemoapp.data.remote.response.ResponseParser
 import okhttp3.OkHttpClient
 
@@ -17,7 +18,7 @@ class WeatherApiClient(
     suspend fun searchDistricts(
         keywords: String,
         subdistrict: Int = 1
-    ): List<DistrictsSearchResponse> {
+    ): List<DistrictsSearchDTO> {
         val params = mapOf(
             "keywords" to keywords,
             "subdistrict" to subdistrict.toString()
@@ -27,7 +28,26 @@ class WeatherApiClient(
         return doGetList(
             path = "/v3/config/district",
             params = params,
-            itemClass = DistrictsSearchResponse::class.java
+            itemClass = DistrictsSearchDTO::class.java
+        )
+    }
+
+    /**
+     * 获取实况天气信息
+     * 高德API: v3/weather/weatherInfo
+     */
+    suspend fun liveWeatherInfo(
+        adcode: String
+    ): List<WeatherInfoDTO> {
+        val params = mapOf(
+            "city" to adcode,
+            "extensions" to "base"
+        )
+
+        return doGetList(
+            path = "/v3/weather/weatherInfo",
+            params = params,
+            itemClass = WeatherInfoDTO::class.java
         )
     }
 }

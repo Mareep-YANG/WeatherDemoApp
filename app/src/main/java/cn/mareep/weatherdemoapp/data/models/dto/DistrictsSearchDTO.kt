@@ -1,8 +1,8 @@
-package cn.mareep.weatherdemoapp.data.models.dto.response
+package cn.mareep.weatherdemoapp.data.models.dto
 
 import com.google.gson.annotations.SerializedName
 
-class DistrictsSearchResponse (
+class DistrictsSearchDTO (
     @SerializedName("citycode")
     val citycode: String,
 
@@ -19,5 +19,5 @@ class DistrictsSearchResponse (
     val level: String,
 
     @SerializedName("districts")
-    val districts: List<DistrictsSearchResponse>? = null
+    val districts: List<DistrictsSearchDTO>? = null
 )

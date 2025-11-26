@@ -26,13 +26,13 @@
 2. 在表格最后一行添加新行
 3. 按照以下格式填写：
 
-| 时间 | 提问内容 | 回答内容 |
-|------|---------|---------|
-| YYYY-MM-DD | 用户的提问核心内容（简短） | 你回答了什么内容（详细说明） |
+| 时间 | 提问内容 | 回答内容 | 回答类型 |
+|------|---------|---------|--------|
+| YYYY-MM-DD | 用户的提问核心内容（简短） | 你回答了什么内容（详细说明） | 解释/行动 |
 
 **示例：**
 ```
-| 2025-11-25 | BuildConfig注入方法 | 讲解了在build.gradle.kts中通过buildConfigField注入值到BuildConfig的方法，推荐使用从local.properties读取的方案，提供了具体的代码示例，说明了如何在Kotlin代码中使用BuildConfig字段以及注意事项 |
+| 2025-11-25 | BuildConfig注入方法 | 讲解了在build.gradle.kts中通过buildConfigField注入值到BuildConfig的方法，推荐使用从local.properties读取的方案，提供了具体的代码示例，说明了如何在Kotlin代码中使用BuildConfig字段以及注意事项 | 解释 |
 ```
 
 4. **仅仅更新表格，不修改README的任何其他内容**

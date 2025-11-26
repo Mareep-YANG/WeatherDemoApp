@@ -24,7 +24,6 @@ class WeatherApiClient(
             "subdistrict" to subdistrict.toString()
         )
 
-        // ✅ 返回纯 DTO
         return doGetList(
             path = "/v3/config/district",
             params = params,

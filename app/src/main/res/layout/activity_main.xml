@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".ui.main.MainActivity">
 
     <!-- 顶部应用栏 -->
     <com.google.android.material.appbar.AppBarLayout
@@ -28,6 +28,46 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <!-- 搜索框容器（在 ScrollView 外，防止被裁剪） -->
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/searchContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp"
+        android:background="?attr/colorSurface"
+        app:layout_constraintTop_toBottomOf="@id/appBarLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/searchEditText"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:hint="@string/input_city"
+            android:inputType="text"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="8dp"
+            android:background="@android:drawable/editbox_background"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- 搜索结果列表 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/searchResultsRecyclerView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:maxHeight="200dp"
+            android:visibility="gone"
+            app:layout_constraintTop_toBottomOf="@id/searchEditText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <!-- 主要内容滚动视图 -->
     <androidx.core.widget.NestedScrollView
         android:id="@+id/scrollView"
@@ -37,7 +77,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/appBarLayout">
+        app:layout_constraintTop_toBottomOf="@id/searchContainer">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -45,7 +85,9 @@
             android:orientation="vertical"
             android:paddingHorizontal="16dp"
             android:paddingTop="16dp"
-            android:paddingBottom="24dp">
+            android:paddingBottom="24dp"
+            android:clipChildren="false"
+            android:clipToPadding="false">
 
             <!-- 当前天气卡片 -->
             <com.google.android.material.card.MaterialCardView
@@ -53,6 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="24dp"
+                android:clipChildren="false"
+                android:clipToPadding="false"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="4dp"
                 app:strokeColor="?attr/colorSurfaceVariant"
@@ -60,36 +104,38 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="578dp"
                     android:orientation="vertical"
-                    android:padding="24dp">
+                    android:padding="24dp"
+                    android:clipChildren="false"
+                    android:clipToPadding="false">
 
                     <!-- 位置信息 -->
                     <TextView
                         android:id="@+id/locationText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
                         android:text="@string/location"
                         android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-                        android:textColor="?attr/colorOnSurfaceVariant"
-                        android:layout_marginBottom="8dp" />
+                        android:textColor="?attr/colorOnSurfaceVariant" />
 
                     <!-- 温度显示 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
+                        android:layout_marginBottom="16dp"
                         android:gravity="center_vertical"
-                        android:layout_marginBottom="16dp">
+                        android:orientation="horizontal">
 
                         <TextView
                             android:id="@+id/temperatureText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:text="26°C"
                             android:textAppearance="@style/TextAppearance.Material3.DisplayMedium"
-                            android:textColor="?attr/colorPrimary"
-                            android:layout_weight="1" />
+                            android:textColor="?attr/colorPrimary" />
 
                         <ImageView
                             android:id="@+id/weatherIcon"
@@ -106,37 +152,37 @@
                         android:id="@+id/weatherDescriptionText"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="16dp"
                         android:text="晴天"
                         android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
-                        android:textColor="?attr/colorOnSurface"
-                        android:layout_marginBottom="16dp" />
+                        android:textColor="?attr/colorOnSurface" />
 
                     <!-- 天气详情网格 -->
                     <GridLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="146dp"
+                        android:layout_marginBottom="8dp"
                         android:columnCount="3"
-                        android:rowCount="2"
-                        android:layout_marginBottom="8dp">
+                        android:rowCount="2">
 
                         <!-- 体感温度 -->
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_horizontal"
-                            android:padding="8dp"
                             android:layout_row="0"
                             android:layout_column="0"
-                            android:layout_columnWeight="1">
+                            android:layout_columnWeight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
                                 android:text="@string/feels_like"
                                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                                android:textColor="?attr/colorOnSurfaceVariant"
-                                android:layout_marginBottom="4dp" />
+                                android:textColor="?attr/colorOnSurfaceVariant" />
 
                             <TextView
                                 android:id="@+id/feelsLikeText"
@@ -152,20 +198,20 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_horizontal"
-                            android:padding="8dp"
                             android:layout_row="0"
                             android:layout_column="1"
-                            android:layout_columnWeight="1">
+                            android:layout_columnWeight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
                                 android:text="@string/humidity"
                                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                                android:textColor="?attr/colorOnSurfaceVariant"
-                                android:layout_marginBottom="4dp" />
+                                android:textColor="?attr/colorOnSurfaceVariant" />
 
                             <TextView
                                 android:id="@+id/humidityText"
@@ -181,20 +227,20 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_horizontal"
-                            android:padding="8dp"
                             android:layout_row="0"
                             android:layout_column="2"
-                            android:layout_columnWeight="1">
+                            android:layout_columnWeight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
                                 android:text="@string/wind_speed"
                                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                                android:textColor="?attr/colorOnSurfaceVariant"
-                                android:layout_marginBottom="4dp" />
+                                android:textColor="?attr/colorOnSurfaceVariant" />
 
                             <TextView
                                 android:id="@+id/windSpeedText"
@@ -210,20 +256,20 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_horizontal"
-                            android:padding="8dp"
                             android:layout_row="1"
                             android:layout_column="0"
-                            android:layout_columnWeight="1">
+                            android:layout_columnWeight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
                                 android:text="@string/pressure"
                                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                                android:textColor="?attr/colorOnSurfaceVariant"
-                                android:layout_marginBottom="4dp" />
+                                android:textColor="?attr/colorOnSurfaceVariant" />
 
                             <TextView
                                 android:id="@+id/pressureText"
@@ -239,20 +285,20 @@
                         <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:gravity="center_horizontal"
-                            android:padding="8dp"
                             android:layout_row="1"
                             android:layout_column="1"
-                            android:layout_columnWeight="1">
+                            android:layout_columnWeight="1"
+                            android:gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:padding="8dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginBottom="4dp"
                                 android:text="@string/uv_index"
                                 android:textAppearance="@style/TextAppearance.Material3.BodySmall"
-                                android:textColor="?attr/colorOnSurfaceVariant"
-                                android:layout_marginBottom="4dp" />
+                                android:textColor="?attr/colorOnSurfaceVariant" />
 
                             <TextView
                                 android:id="@+id/uvIndexText"
@@ -274,51 +320,30 @@
 
                     </GridLayout>
 
+                    <Button
+                        android:id="@+id/hour_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/hourly_forecast" />
+
+                    <Button
+                        android:id="@+id/week_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/seven_day_forecast" />
+
+
                 </LinearLayout>
 
             </com.google.android.material.card.MaterialCardView>
 
             <!-- 逐小时预报标题 -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/hourly_forecast"
-                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_marginBottom="12dp" />
 
             <!-- 逐小时预报（水平滚动） -->
-            <HorizontalScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scrollbars="none"
-                android:layout_marginBottom="24dp">
-
-                <LinearLayout
-                    android:id="@+id/hourlyForecastContainer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp" />
-
-            </HorizontalScrollView>
 
             <!-- 7天预报标题 -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/seven_day_forecast"
-                android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_marginBottom="12dp" />
 
             <!-- 7天预报列表 -->
-            <LinearLayout
-                android:id="@+id/sevenDayForecastContainer"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical" />
 
         </LinearLayout>
 

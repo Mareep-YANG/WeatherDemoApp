@@ -24,4 +24,8 @@
     <string name="percent">%</string>
     <string name="km_per_hour">km/h</string>
     <string name="hpa">hPa</string>
+
+    <!-- 城市选择    -->
+    <string name="input_city">输入你想切换到的城市</string>
+    <string name="submit_city">按钮确认</string>
 </resources>
